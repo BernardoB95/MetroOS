@@ -95,7 +95,8 @@ public class MetroOS {
     public void asignarProcesos()
     {
         Procesos proc = definirProcesos();
-        proc.crearProceso(proc.calcularPagina(Virtual.getFragmentacion(), proc.getTamano()), Virtual.getMemoria(), proc);
+        proc.crearProceso(proc.calcularPagina(Virtual.getFragmentacion(), proc.getTamano()), Virtual.getMemoria(),RAM.getMemoria() , proc);
+        RAM.mostrarMemoria(RAM.getMemoria());
         Virtual.mostrarMemoria(Virtual.getMemoria());
     }
     
@@ -106,8 +107,11 @@ public class MetroOS {
         String nom = sc.next();
         // Hay que hacer la busqueda en memoria del proceso con ese nombre
         Virtual.eliminarProceso(Virtual.getMemoria(), nom);
+        RAM.eliminarProceso(RAM.getMemoria(), nom);
         //Arreglar el NullPointerException
-        System.out.println(Virtual.getMemoria()[0]);
+//        System.out.println(Virtual.getMemoria()[0]);
+        RAM.mostrarMemoria(RAM.getMemoria());
+        Virtual.mostrarMemoria(Virtual.getMemoria());
     }
     
     
@@ -116,7 +120,7 @@ public class MetroOS {
         
         m.definirMemoria();
         m.asignarProcesos();
-        //m.asignarProcesos();
+        m.asignarProcesos();
         m.eliminarProcesos();
         
     }

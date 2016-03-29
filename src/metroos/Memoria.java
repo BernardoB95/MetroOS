@@ -123,6 +123,7 @@ public class Memoria {
                 proc = true;
                 cont ++;
             }
+            System.out.println("repite en for: "+cont);
         } // Por aca esta el error, la impresion del contador sirve
         if(proc == true)
         {

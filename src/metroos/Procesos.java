@@ -82,6 +82,10 @@ public class Procesos {
                     Memoria[i] = P;
                     calcularPagina--;
                 }
+                else
+                {
+                    Memoria[i] = null;
+                }
             }
         }
         else

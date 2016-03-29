@@ -10,6 +10,7 @@ public class MetroOS {
     Memoria RAM = new Memoria();
     Memoria Virtual = new Memoria();
     Procesos[] memoria ;
+    ListaSuspendidos Suspendidos = new ListaSuspendidos();
     
     public int opcionesMenu()
     {
@@ -114,6 +115,14 @@ public class MetroOS {
         Virtual.mostrarMemoria(Virtual.getMemoria());
     }
     
+    public void asignarSuspendidos()
+    {
+        System.out.println("Indique el procesos que quiere suspender: ");
+        String nom = sc.next();
+        Suspendidos.asignarSuspendido(Virtual.getMemoria(), RAM.getMemoria(), nom);
+        Suspendidos.mostrarSuspendidos(Suspendidos);
+    }
+    
     
     public static void main(String[] args) {
         MetroOS m = new MetroOS();
@@ -121,8 +130,8 @@ public class MetroOS {
         m.definirMemoria();
         m.asignarProcesos();
         m.asignarProcesos();
-        m.eliminarProcesos();
-        
+        //m.eliminarProcesos();
+        m.asignarSuspendidos();
     }
     
 }

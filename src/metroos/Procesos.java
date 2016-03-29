@@ -82,6 +82,10 @@ public class Procesos {
                     Memoria[i] = P;
                     calcularPagina--;
                 }
+                else
+                {
+                    Memoria[i] = null;
+                }
             }
         }
         else
@@ -93,26 +97,7 @@ public class Procesos {
         
     }
     
-    public void eliminarProceso(Procesos[] Memoria, String nombre)
-    {
-        boolean proc = false;
-        for (int i = 0; i < Memoria.length ; i++) 
-        {
-            if (nombre == Memoria[i].getNombre()) 
-            {
-                Memoria[i]=null;
-                proc = true;
-            }
-        }
-        if(proc == true)
-        {
-            System.out.println("El proceso "+nombre+" fue eliminado exitosamente");
-        }
-        else
-        {
-            System.out.println("No se encontro proceso con ese nombre");
-        }
-    }
+
     
     
     

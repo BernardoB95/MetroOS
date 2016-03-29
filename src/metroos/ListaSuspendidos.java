@@ -39,30 +39,27 @@ public class ListaSuspendidos {
         for (int i = 0; i < Virtual.length; i++) 
         {
             System.out.println("Entro en el for");
-            if(RAM[i]!= null)       //--> Aca es donde esta dando el error ///// Error puede ser en el for
-            {
+//            if(RAM[i]!= null)       //--> Aca es donde esta dando el error ///// Error puede ser en el for
+//            {
                 System.out.println("Entro en if de RAM");   // Entra en este print
                 if(nombre.equals(RAM[i].getNombre()))
                 {
-                    System.out.println("Entro en segundo if"); // Entra en este print
+                    System.out.println("Entro en segundo if"+i); // Entra en este print
                     Suspendidos.add(RAM[i]);
                     RAM[i]=null;
-                    System.out.println("ESTO ESTA EN SUSPENDIDO EN LA POSICION 0 "+Suspendidos.get(0)); //Si hace ambas asignaciones
-                    System.out.println("ESTO ESTA EN RAM EN LA POSICION 0 "+ RAM[0]);
                 }
-            }
-            else{}
-            if (Virtual[i]!=null) 
-            {
+//            }
+//            if (Virtual[i]!=null) 
+//            {
                 System.out.println("Entro en if de Virtual");
                 if(nombre.equals(Virtual[i].getNombre()))
                 {
                     Suspendidos.add(Virtual[i]);
                     Virtual[i] = null;
                 }
-            }
-            else{}
+//            }
         }
+        System.out.println("Salio del for?");
     }
     
     public void mostrarSuspendidos(ListaSuspendidos Suspendidos)

@@ -130,8 +130,8 @@ public class MetroOS {
         m.definirMemoria();
         m.asignarProcesos();
         m.asignarProcesos();
-        //m.eliminarProcesos();
-        m.asignarSuspendidos();
+        m.eliminarProcesos();
+//        m.asignarSuspendidos();
     }
     
 }

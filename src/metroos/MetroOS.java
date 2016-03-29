@@ -101,11 +101,13 @@ public class MetroOS {
     
     public void eliminarProcesos()
     {
+        
         System.out.println("Indique cual proceso quiere eliminar: ");
         String nom = sc.next();
         // Hay que hacer la busqueda en memoria del proceso con ese nombre
         Virtual.eliminarProceso(Virtual.getMemoria(), nom);
         //Arreglar el NullPointerException
+        System.out.println(Virtual.getMemoria()[0]);
     }
     
     
@@ -114,7 +116,7 @@ public class MetroOS {
         
         m.definirMemoria();
         m.asignarProcesos();
-        m.asignarProcesos();
+        //m.asignarProcesos();
         m.eliminarProcesos();
         
     }

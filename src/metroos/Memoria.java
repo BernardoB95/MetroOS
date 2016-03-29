@@ -85,18 +85,8 @@ public class Memoria {
         }
     }
     
-    public void eliminarProceso(Procesos[] Memoria, String nombre)
-    {
-        for (int i = 0; i < Memoria.length; i++) 
-        {
-            if(nombre == Memoria[i].getNombre())
-            {
-                Memoria[i] = null;
-            }
-        }
-    }
     
-    public void crearProceso(Procesos[] Memoria, String nombre)
+    public void crearProceso(Procesos[] Memoria, String nombre) // Desuso
     {
         for (int i = 0; i < Memoria.length; i++) 
         {
@@ -105,6 +95,45 @@ public class Memoria {
                 Memoria[i].setNombre(nombre);
             }
         }
+    }
+    
+    public Procesos buscarProceso(Procesos[] Memoria,String nombre)
+    {
+        Procesos proc = new Procesos();
+        for (int i = 0; i < Memoria.length; i++) 
+        {
+            if(Memoria[i].getNombre() == nombre)
+                proc = Memoria[i];
+        }
+        return proc;
+        
+        
+    }
+    
+    public void eliminarProceso(Procesos[] Memoria, String nombre)
+    {
+        int cont=1;
+        boolean proc = false;
+        for (int i = 0; i < Memoria.length ; i++) 
+        {
+            if (nombre.equals(Memoria[i].getNombre())) 
+            {
+                System.out.println("entro al if "+cont);
+                Memoria[i]=null;
+                proc = true;
+                cont ++;
+            }
+        } // Por aca esta el error, la impresion del contador sirve
+        if(proc == true)
+        {
+            System.out.println("El proceso "+nombre+" fue eliminado exitosamente");
+        }
+        else
+        {
+            System.out.println("No se encontro proceso con ese nombre");
+        }
+        
+        
     }
     
 }

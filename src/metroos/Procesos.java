@@ -15,6 +15,9 @@ public class Procesos {
     private String nombre;
     private int tamano;
     
+    private boolean bloqueado;
+    private boolean suspendido;
+    
     //Constructor
     public Procesos(String nombre, int tamano)
     {
@@ -43,6 +46,24 @@ public class Procesos {
     public void setTamano(int tamano) {
         this.tamano = tamano;
     }
+
+    public boolean isBloqueado() {
+        return bloqueado;
+    }
+
+    public void setBloqueado(boolean bloqueado) {
+        this.bloqueado = bloqueado;
+    }
+
+    public boolean isSuspendido() {
+        return suspendido;
+    }
+
+    public void setSuspendido(boolean suspendido) {
+        this.suspendido = suspendido;
+    }
+    
+    
     
     //Calcula la cantidad de paginas necesarias
     public int calcularPagina(int tamanoFragmento, int tamanoProceso)
@@ -115,11 +136,13 @@ public class Procesos {
                 contR++;
             }
         }
+        
+        System.out.println("contR "+contR+" cont: "+cont+" calcularpagina: "+calcularPagina );
         //--------- Se evaluan las 3 posibilidades de insercion, todo RAM, dividido y todo Virtual
         if (contR >= calcularPagina) {
             for (int i = 0; i < MemoriaR.length; i++)
             {
-                if(calcularPagina > 0 && Memoria[i] == null)  // Asignacion de procesos a espacios vacios
+                if(calcularPagina > 0 && MemoriaR[i] == null)  // Asignacion de procesos a espacios vacios
                 {
                     MemoriaR[i] = P;
                     calcularPagina--;
@@ -130,7 +153,7 @@ public class Procesos {
         }else if(contR >= (calcularPagina / 2)  && (cont + contR) >= calcularPagina){
             for (int i = 0; i < MemoriaR.length; i++)
             {
-                if(calcularPagina > 0 && Memoria[i] == null)  // Asignacion de procesos a espacios vacios
+                if(calcularPagina > 0 && MemoriaR[i] == null)  // Asignacion de procesos a espacios vacios
                 {
                     MemoriaR[i] = P;
                     calcularPagina--;

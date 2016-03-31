@@ -38,7 +38,21 @@ public class ListaSuspendidos {
         
         for (int i = 0; i < Virtual.length; i++) 
         {
-            System.out.println("Entro en el for");
+            System.out.println("Entro en el for virtual");
+            if (Virtual[i]!=null) 
+            {
+                System.out.println("Entro en if de Virtual");
+                if(nombre.equals(Virtual[i].getNombre()))
+                {
+                    Suspendidos.add(Virtual[i]);
+                    Virtual[i] = null;
+                }
+            }
+            else{}
+        }
+        for (int i = 0; i < RAM.length; i++) 
+        {
+            System.out.println("Entro en el for ram");
             if(RAM[i]!= null)       //--> Aca es donde esta dando el error ///// Error puede ser en el for
             {
                 System.out.println("Entro en if de RAM");   // Entra en este print
@@ -47,16 +61,6 @@ public class ListaSuspendidos {
                     System.out.println("Entro en segundo if"+i); // Entra en este print
                     Suspendidos.add(RAM[i]);
                     RAM[i]=null;
-                }
-            }
-            else{}
-            if (Virtual[i]!=null) 
-            {
-                System.out.println("Entro en if de Virtual");
-                if(nombre.equals(Virtual[i].getNombre()))
-                {
-                    Suspendidos.add(Virtual[i]);
-                    Virtual[i] = null;
                 }
             }
             else{}

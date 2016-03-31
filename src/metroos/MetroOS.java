@@ -11,55 +11,119 @@ public class MetroOS {
     Memoria Virtual = new Memoria();
     Procesos[] memoria ;
     ListaSuspendidos Suspendidos = new ListaSuspendidos();
+    int proc = 0;
+    int susp = 0;
+    
+    
     
     public int opcionesMenu()
     {
         
+        
         System.out.println("==== MetroOS ====");
         System.out.println("\n");
-        System.out.println("1. Crear Proceso"
-                + "2. Detener Proceso"
-                + "3. Bloquear Proceso"
-                + "4. Eliminar Proces"
-                + "5. Direccion Logica -> Direccion Fisica");
+        System.out.println("1. Crear Proceso\n"
+                + "2. Suspender Proceso\n"
+                + "3. Bloquear Proceso\n"
+                + "4. Desbloquear Proceso\n"
+                + "5. Eliminar Proces\n"
+                + "6. Reanudar procesos suspendidos\n"
+                + "7. Activar proceso\n"
+                + "8. Estadisticas\n"
+                + "9. Direccion Logica -> Direccion Fisica\n"
+                + "0. Terminar\n");
         System.out.println("Introduzca su opcion:");
         int opcion = sc.nextInt();
         return opcion;
     }
     
-    public void Menu(int opcion)
+    public void Menu()
     {
-        switch(opcion)
-        {
-            case 1: 
-                definirProcesos();
-                break;
-                
-            case 2:
-                break;
-                
-            case 3: 
-                break;
-                
-            case 4:
-                break;
-                
-            case 5:
-                break;
-                
-            default: System.out.println("Opcion Invalida");
-                break;
+        boolean term = true;
+        while(term){
+                switch(opcionesMenu())
+            {
+                case 1: 
+                    proc++;
+                    asignarProcesos();
+                    break;
+
+                case 2:
+                    susp++;
+                    asignarSuspender();
+                    break;
+
+                case 3: 
+                    bloquearProceso();
+                    break;
+                case 4:
+                    desbloquear();
+                    break;
+
+                case 5:
+                     eliminarProcesos();
+                    break;
+
+                case 6:
+                    susp--;
+                    reanudar();
+                    break;
+                case 7:
+                    reanudar();
+                    break;
+                case 8:
+                    estadisticas();
+                    break;
+                case 9: 
+                    System.out.println("No pudimos convertir las direcciones");
+                    break;
+                case 0:
+                    term = false;
+                    break;
+
+                default: System.out.println("Opcion Invalida");
+                    break;
+            }
         }
+        
+        
                 
+    }
+    
+    public void estadisticas(){
+        System.out.println("\n\n********************************************************");
+        System.out.println("Numero de procesos creados: "+proc);
+        System.out.println("Numero de marcos de pagina utilizados: "+ RAM.getMarcoPag(RAM.getMemoria()));
+        System.out.println("Memoria disponible: "+ (RAM.getMemoriaDisp(RAM.getMemoria(), Virtual.getMemoria()) * RAM.getFragmentacion())+" KB");
+        System.out.println("Numero de paginas utilizadas: "+ Virtual.getMarcoPag(Virtual.getMemoria()));
+        System.out.println("Procesos suspendidos: "+ susp);
+        System.out.println("********************************************************\n");
+    }
+    
+    public void bloquearProceso(){
+        System.out.println("Introduzca el nombre del proceso a bloquear: ");
+        String nom = sc.next();
+        RAM.bloquear(RAM.getMemoria(), nom);
+        Virtual.bloquear(Virtual.getMemoria(), nom);
+        
+        print();
+    }
+    public void desbloquear(){
+        System.out.println("Introduzca el nombre del proceso a desbloquear: ");
+        String nom = sc.next();
+        RAM.desbloquear(RAM.getMemoria(), nom);
+        Virtual.desbloquear(Virtual.getMemoria(), nom);
+        
+        print();
     }
     
     public void definirMemoria()    //Creacion de Memoria Principal, Virtual y Fragmentacion
     {
         //Potencias de 2 para manejar mejor direcciones en Binario
         System.out.println("Introduzca un numero N para que esta sea la potencia de 2 deseada: Ej -> 2^N");
-        System.out.println("Tamaño de Memoria Principal (MB):");
+        System.out.println("Tamaño de Memoria Principal (KB):");
         double ram = Math.pow(2, sc.nextInt());
-        System.out.println("Tamaño de Memoria Virtual (GB)");
+        System.out.println("Tamaño de Memoria Virtual (KB)");
         double virtual = Math.pow(2, sc.nextInt()); 
         System.out.println("Tamaño de fragmentacion de Memoria (KB)");
         double frag = Math.pow(2, sc.nextInt());
@@ -74,9 +138,11 @@ public class MetroOS {
       
         RAM.setMemoria(RAM.asignarTamano(ramInt, memoria,fragInt));
         RAM.llenarMemoria(RAM.getMemoria());
-        System.out.println("===========================");
+        
         Virtual.setMemoria(Virtual.asignarTamano(virtualInt, memoria, fragInt));
         Virtual.llenarMemoria(Virtual.getMemoria()); 
+        
+        Menu();
     }
     
     public Procesos definirProcesos()       // Creacion de Proceso
@@ -97,8 +163,7 @@ public class MetroOS {
     {
         Procesos proc = definirProcesos();
         proc.crearProceso(proc.calcularPagina(Virtual.getFragmentacion(), proc.getTamano()), Virtual.getMemoria(),RAM.getMemoria() , proc);
-        RAM.mostrarMemoria(RAM.getMemoria());
-        Virtual.mostrarMemoria(Virtual.getMemoria());
+        print();
     }
     
     public void eliminarProcesos()
@@ -111,27 +176,57 @@ public class MetroOS {
         RAM.eliminarProceso(RAM.getMemoria(), nom);
         //Arreglar el NullPointerException
 //        System.out.println(Virtual.getMemoria()[0]);
-        RAM.mostrarMemoria(RAM.getMemoria());
-        Virtual.mostrarMemoria(Virtual.getMemoria());
+        print();
     }
     
-    public void asignarSuspendidos()
+    public void asignarSuspender()
     {
         System.out.println("Indique el procesos que quiere suspender: ");
         String nom = sc.next();
-        Suspendidos.asignarSuspendido(Virtual.getMemoria(), RAM.getMemoria(), nom);
-        Suspendidos.mostrarSuspendidos(Suspendidos);
+        RAM.Suspender(RAM.getMemoria(), Virtual.getMemoria(), nom);
+        
+        print();
+    }
+    
+    public void reanudar(){
+        System.out.println("Indique cual proceso quiere reanudar: ");
+        String nom = sc.next();
+        // Hay que hacer la busqueda en memoria del proceso con ese nombre
+        int aux = Virtual.eliminarProceso(Virtual.getMemoria(), nom);
+        
+        Procesos proc = new Procesos();
+        proc.setNombre(nom);
+        proc.crearProceso(proc.calcularPagina(Virtual.getFragmentacion(), aux), Virtual.getMemoria(),RAM.getMemoria() , proc);
+        
+        print();
+        
+    }
+    
+    public void print(){
+                     
+                    System.out.print("\n\n[proceso normal] ");
+                    System.out.print((char)27 + "[46m"+ "[proceso suspendido y bloqueado] " + (char)27 + "[0m");
+                    System.out.print("["+(char)27 + "[35m"+"proceso suspendido" + (char)27 + "[0m"+"] ");
+                    System.out.println("["+(char)27 + "[31m"+"proceso bloqueado4"
+                            + "6"
+                            + "2"
+                            + "1"
+                            + "" + (char)27 + "[0m"+"] ");
+                    
+        System.out.println("\n==========================================================================================\n");
+        System.out.println("Memoria principal:");
+        RAM.mostrarMemoria(RAM.getMemoria());        
+        System.out.println("------------------------------------------------------------------------------------------");
+        System.out.println("Memoria virtual: ");
+        Virtual.mostrarMemoria(Virtual.getMemoria());
+        System.out.println("\n==========================================================================================\n");
+        
     }
     
     
     public static void main(String[] args) {
         MetroOS m = new MetroOS();
-        
         m.definirMemoria();
-        m.asignarProcesos();
-        m.asignarProcesos();
-        m.eliminarProcesos();
-//        m.asignarSuspendidos();
     }
     
 }
